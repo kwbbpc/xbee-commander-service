@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 
 
 @Configuration
-@PropertySource("classpath:application.properties")
 @ConfigurationProperties(prefix = "messaging")
 public class ConfigProps {
 

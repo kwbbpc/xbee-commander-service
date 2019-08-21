@@ -1,6 +1,7 @@
 package com.broadway.has.xbee;
 
 import com.broadway.has.messaging.WateringRequest;
+import com.broadway.has.messaging.XbeeCommand;
 import com.broadway.has.proto.FlowCommand;
 import com.broadway.has.sqs.JmsConfig;
 import com.digi.xbee.api.RemoteXBeeDevice;
@@ -60,7 +61,6 @@ public class XbeeDevice implements XbeeProxy{
     public void start(){
         try {
             this.xbee.addDataListener(this.listener);
-            this.xbee.open();
         }catch (Exception e){
             log.error("Exception while xbee was open: {}", e);
         }
@@ -68,22 +68,19 @@ public class XbeeDevice implements XbeeProxy{
 
 
     @Override
-    public void handleWateringRequest(WateringRequest request) throws XBeeException{
+    public void proxyCommand(XbeeCommand cmd) throws XBeeException{
 
         //push the command to the xbee
-        log.info("Executing watering request on XBEE: {}", request.toString());
+        byte[] msgBytes = cmd.getMessage().getBytes();
 
-        RemoteXBeeDevice remoteXBeeDevice = new RemoteXBeeDevice(xbee, new XBee64BitAddress(request.getXbeeAddr()));
+        log.info("Executing command {} on XBEE: {}", msgBytes[0], msgBytes);
 
-        FlowCommand.FlowCommandMessage message = FlowCommand.FlowCommandMessage.newBuilder()
-                .setIsOn(request.getOn())
-                .setPinNumber(request.getValveNumber())
-                .setRunTimeMs((int)request.getRunTimeMs())
-                .build();
+        RemoteXBeeDevice remoteXBeeDevice = new RemoteXBeeDevice(xbee, new XBee64BitAddress(cmd.getXbeeAddr()));
 
-        byte[] msg = new byte[message.toByteArray().length + 1];
-        msg[0] = 3;
-        System.arraycopy(message.toByteArray(), 0, msg, 1, message.toByteArray().length);
+
+        byte[] msg = new byte[msgBytes.length + 1];
+        msg[0] = cmd.getMessageType();
+        System.arraycopy(msgBytes, 0, msg, 1, msgBytes.length);
 
 
         xbee.sendData(remoteXBeeDevice, msg);
