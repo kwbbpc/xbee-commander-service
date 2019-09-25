@@ -1,11 +1,7 @@
 package com.broadway.has;
 
 import com.broadway.has.messaging.WateringRequest;
-import com.broadway.has.messaging.XbeeCommand;
-import com.broadway.has.proto.FlowCommand;
 import com.broadway.has.sensor.watering.WateringExecutor;
-import com.broadway.has.xbee.ConfigProps;
-import com.broadway.has.xbee.XbeeProxy;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -6,7 +6,7 @@ import com.broadway.has.messaging.XbeeCommand;
 import com.broadway.has.proto.FlowCommand;
 import com.broadway.has.repositories.CommandRunHistoryRepository;
 import com.broadway.has.repositories.converters.WateringRequestToCommandHistory;
-import com.broadway.has.xbee.ConfigProps;
+import com.broadway.has.xbee.MessagingConfigProps;
 import com.broadway.has.xbee.XbeeProxy;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,11 @@ public class WateringExecutor {
     private XbeeProxy xbeeProxy;
 
     @Autowired
-    private ConfigProps props;
+    private MessagingConfigProps props;
 
     @Autowired
     private CommandRunHistoryRepository runHistoryRepository;
+
 
     public void executeWateringRequest(WateringRequest request) throws XbeeCommunicationsError {
         //convert
