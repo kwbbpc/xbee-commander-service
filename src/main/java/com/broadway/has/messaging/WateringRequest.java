@@ -1,9 +1,13 @@
 package com.broadway.has.messaging;
 
+import com.broadway.has.proto.FlowCommand;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.DateTime;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class WateringRequest {
 
@@ -12,6 +16,19 @@ public class WateringRequest {
     private long runTimeMs;
     private boolean on;
     private String xbeeAddr;
+    private Request requestDetails;
+
+    public boolean isOn() {
+        return on;
+    }
+
+    public Request getRequestDetails() {
+        return requestDetails;
+    }
+
+    public void setRequestDetails(Request requestDetails) {
+        this.requestDetails = requestDetails;
+    }
 
     public String getXbeeAddr() {
         return xbeeAddr;
@@ -37,10 +54,6 @@ public class WateringRequest {
         this.runTimeMs = runTimeMs;
     }
 
-    public boolean getOn() {
-        return on;
-    }
-
     public void setOn(boolean on) {
         this.on = on;
     }
@@ -49,6 +62,16 @@ public class WateringRequest {
             throws JsonProcessingException, IOException {
         ObjectMapper objectMapper=new ObjectMapper();
         return objectMapper.readValue(json, WateringRequest.class);
+    }
+
+    public FlowCommand.FlowCommandMessage toFlowCommand(){
+
+        FlowCommand.FlowCommandMessage.Builder msg = FlowCommand.FlowCommandMessage.newBuilder();
+        msg.setIsOn(this.on);
+        msg.setPinNumber(this.valveNumber);
+        msg.setRunTimeMs(((Long)this.runTimeMs).intValue());
+        return msg.build();
+
     }
 
 

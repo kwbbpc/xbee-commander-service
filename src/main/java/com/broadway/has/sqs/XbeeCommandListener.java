@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 
 import javax.jms.JMSException;
 
+
+
+/*This is deprecated in favor of an architecture that doesn't need to know how to convert protobufs.  Later, this class
+will be improved to listen for JSON and process those JSON messages into a protobuf message sent to XBEEs.
+ */
 @Service
 public class XbeeCommandListener {
 

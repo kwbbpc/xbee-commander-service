@@ -29,15 +29,16 @@
     <dependencies>
 
 
+
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sqs</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>javax.jms</groupId>
-            <artifactId>jms</artifactId>
-            <version>1.1</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.9.6</version>
         </dependency>
 
         <dependency>
@@ -55,11 +56,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.1.4.RELEASE</version>
@@ -71,13 +67,38 @@
             <artifactId>jSerialComm</artifactId>
             <version>2.0.2</version>
         </dependency>
-
+        <!-- -->
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.1.0</version>
         </dependency>
+
+        <!--Swagger Dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!--        -->
+
+        <!-- DynamoDB Dependencies -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-dynamodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.derjust</groupId>
+            <artifactId>spring-data-dynamodb</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <!-- -->
 
         <!-- XBEE Dependencies -->
         <dependency>
@@ -93,13 +114,16 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-jdk14</artifactId>
                 </exclusion>
-                <!--exclusion> <!--sometimes this dep needs to be excluded b/c of conflicts in the android SDK (jackson)
+                <!--exclusion>
+                sometimes this dep needs to be excluded b/c of conflicts in the android SDK (jackson)
                     <groupId>com.digi</groupId>
                     <artifactId>android-sdk</artifactId>
                 </exclusion-->
             </exclusions>
         </dependency>
         <!-- XBEE Dependencies -->
+
+
 
 
     </dependencies>

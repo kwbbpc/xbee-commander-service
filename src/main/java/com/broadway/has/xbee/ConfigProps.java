@@ -9,13 +9,31 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties(prefix = "messaging")
 public class ConfigProps {
 
-    private String name;
+    private int weather;
+    private int motion;
+    private int watering;
 
-    public String getName() {
-        return name;
+    public void setWeather(int weather) {
+        this.weather = weather;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMotion(int motion) {
+        this.motion = motion;
+    }
+
+    public void setWatering(int watering) {
+        this.watering = watering;
+    }
+
+    public int getWeather() {
+        return weather;
+    }
+
+    public int getMotion() {
+        return motion;
+    }
+
+    public int getWatering() {
+        return watering;
     }
 }

@@ -3,6 +3,7 @@ package com.broadway.has.xbee;
 import com.broadway.has.messaging.WateringRequest;
 import com.broadway.has.messaging.XbeeCommand;
 import com.broadway.has.proto.FlowCommand;
+import com.broadway.has.repositories.CommandRunHistoryRepository;
 import com.broadway.has.sqs.JmsConfig;
 import com.digi.xbee.api.RemoteXBeeDevice;
 import com.digi.xbee.api.XBeeDevice;
@@ -22,6 +23,9 @@ public class XbeeDevice implements XbeeProxy{
 
     @Autowired
     private XBeeListener listener;
+
+    @Autowired
+    private CommandRunHistoryRepository runHistoryRepository;
 
     private static final String USB_PORT = "/dev/ttyUSB0";
     private static final int BAUD_RATE = 9600;
@@ -44,6 +48,13 @@ public class XbeeDevice implements XbeeProxy{
             }
         }
 
+
+
+
+    }
+
+    public void start(){
+
         while(!isDeviceOpen){
             log.info("Attempting to open created xbee device on {} at {} baud", USB_PORT, BAUD_RATE);
             try{
@@ -55,10 +66,6 @@ public class XbeeDevice implements XbeeProxy{
             }
         }
 
-
-    }
-
-    public void start(){
         try {
             this.xbee.addDataListener(this.listener);
         }catch (Exception e){
@@ -82,8 +89,9 @@ public class XbeeDevice implements XbeeProxy{
         msg[0] = cmd.getMessageType();
         System.arraycopy(msgBytes, 0, msg, 1, msgBytes.length);
 
-
+        //This method can throw, and if it does the caller needs to handle the exception.
         xbee.sendData(remoteXBeeDevice, msg);
+
 
 
         
