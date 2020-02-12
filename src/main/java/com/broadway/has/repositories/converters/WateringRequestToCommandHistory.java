@@ -3,9 +3,11 @@ package com.broadway.has.repositories.converters;
 import com.amazonaws.services.opsworks.model.Command;
 import com.broadway.has.messaging.WateringRequest;
 import com.broadway.has.repositories.CommandHistoryDao;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Date;
+import java.util.Map;
 
 public class WateringRequestToCommandHistory {
 
@@ -18,7 +20,8 @@ public class WateringRequestToCommandHistory {
         cmd.setError(error);
 
         ObjectMapper mapper = new ObjectMapper();
-        cmd.setJsonObject(mapper.valueToTree(request));
+        Map<String, Object> json = mapper.convertValue(request, new TypeReference<Map<String,Object>>() {});
+        cmd.setJsonObject(json);
 
         return cmd;
 

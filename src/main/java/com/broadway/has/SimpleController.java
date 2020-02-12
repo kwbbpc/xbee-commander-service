@@ -1,10 +1,13 @@
 package com.broadway.has;
 
+import com.broadway.has.history.HistoryManager;
 import com.broadway.has.messaging.WateringRequest;
+import com.broadway.has.repositories.CommandHistoryDao;
 import com.broadway.has.sensor.watering.WateringExecutor;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -27,6 +31,9 @@ public class SimpleController{
 
     @Autowired
     private WateringExecutor wateringExecutor;
+
+    @Autowired
+    private HistoryManager historyManager;
 
 
     @GetMapping("/")
@@ -54,12 +61,13 @@ public class SimpleController{
      * Gets the last run commands.
      * @return
      */
-    @GetMapping("/commands")
-    public String getLastCommands(
+    @GetMapping(value = "/commands", produces = "application/json")
+    @ResponseBody
+    public Page<CommandHistoryDao> getLastCommands(
             @ApiParam(value = "How large of results to return", required = true) @Valid @RequestBody int pageSize,
             @ApiParam(value = "Page number of results", required = true) @Valid @RequestBody int pageNumber){
 
-        return "";
+        return historyManager.getRunHistories(pageSize, pageNumber);
     }
 
     @GetMapping("/commands/search")
@@ -68,7 +76,7 @@ public class SimpleController{
             @ApiParam(value = "Date range of commands to get.  Only supports two dates, do not provide any more." +
                     "  Earlier date will be used as the start date.", required = false) @Valid @RequestBody List<Date> dateRange){
 
-        return "";
+        return HttpStatus.NOT_IMPLEMENTED.toString();
     }
 
 }

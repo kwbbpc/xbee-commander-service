@@ -24,8 +24,6 @@ public class XbeeDevice implements XbeeProxy{
     @Autowired
     private XBeeListener listener;
 
-    @Autowired
-    private CommandRunHistoryRepository runHistoryRepository;
 
     private static final String USB_PORT = "/dev/ttyUSB0";
     private static final int BAUD_RATE = 9600;
